@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import Card from "./Components/Card";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [usuario, setUsuario] = useState({
+    nombre: "",
+    animalFavorito: "",
+  });
+  const [err, setErr] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (usuario.animalFavorito.length < 4) {
+      setErr(true);
+    }
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="App">
+        <h1>Ingresa tu animal favorito:</h1>
+        <form onSubmit={handleSubmit}>
+          <label>Ingresa tu nombre y apellido:</label>
+          <input
+            type="text"
+            onChange={(e) => setUsuario({ ...usuario, nombre: e.target.value })}
+          />
+          <label>Animal: </label>
+          <input
+            type="text"
+            onChange={(e) =>
+              setUsuario({ ...usuario, animalFavorito: e.target.value })
+            }
+          />
+          <button>Resultado</button>
+        </form>
+        {err && <p>¡Error en información!</p>}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Card nombre={usuario.nombre} animalFavorito={usuario.animalFavorito} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
